@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tasks</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Starter Template for Bootstrap</title>
+    
+    <!-- Bootstrap core CSS -->
+    {% load static from staticfiles%}
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/custom.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-theme.css" %}" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">DMHY links catcher</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="/admin">Admin</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <h1>Task List</h1>
+      <p>
+    <ul>
+        {% for task in task_list %}
+        <li data-toggle="collapse" data-target="#tid{{task.tid}}" class="task-list"><span class="glyphicon glyphicon-chevron-down"></span> 
+            {{task.alias}} ({{task.count}}) {% if task.update %}<span class="label label-default">New</span> {% endif %}
+            <ul id="tid{{task.tid}}" class="collapse">
+                {% for source in task.source_list %}
+                <li class="source-list">{% if source.update %}<span class="label label-default">New</span>{% endif %}{{source.title}}</li>
+                {% endfor%}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+    </div><!-- /.container -->
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+  </body>
+</html>
