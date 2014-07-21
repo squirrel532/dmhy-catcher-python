@@ -31,7 +31,7 @@ class Source( models.Model ):
         return Source.objects.filter( uri=self.uri ).count( ) != 0
         
     def getMagnet( self ):
-        m = dmhy.GetMagnetLink( u'http://share.dmhy.org' + self.uri )
+        m = dmhyBot.GetMagnetLink( u'http://share.dmhy.org' + self.uri )
         if( m != None ):
             self.magnet = m
         return m
@@ -75,14 +75,14 @@ class Task( models.Model):
 
     def executeTask( self ):
         print "Start to process task \"{alias}\"".format( alias = self.alias.encode("utf-8") )
-        topic_list = dmhy.Search( self.keywords )
+        topic_list = dmhyBot.Search( self.keywords )
         print "We had found {num} topic(s)".format( num = str(len(topic_list)) )
         isupdate = False
         update_first_topic = ( self.first_topic == "" )
         for topic in topic_list:
             target = Source( tid=self.tid, uri=topic['url'], title=topic['title'] )
             status = target.add()
-            print status
+            #print status
             if status:
                 isupdate = True
             if topic['url'] == self.first_topic: break
