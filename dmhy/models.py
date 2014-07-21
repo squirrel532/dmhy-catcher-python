@@ -66,11 +66,11 @@ class Source( models.Model ):
         
     def add( self):
         if( self.isExist() ):
-            print "Ign: {title}".format( title = self.title )
+            print "Ign: {title}".format( title = self.title.encode("utf-8") )
             return 1
         else:
             self.getMagnet()
-            print "Get: {title}".format( title = self.title )
+            print "Get: {title}".format( title = self.title.encode("utf-8") )
             
             alias = Task.objects.get(tid=self.tid).alias
             try:
@@ -102,7 +102,7 @@ class Task( models.Model):
     last_update = models.DateTimeField( auto_now_add = True)
 
     def executeTask( self ):
-        print "Start to process task \"{alias}\"".format( alias = self.alias )
+        print "Start to process task \"{alias}\"".format( alias = self.alias.encode("utf-8") )
         topic_list = Search( self.keywords )
         print "We had found {num} topic(s)".format( num = str(len(topic_list)) )
         isupdate = False
