@@ -1,7 +1,7 @@
 from django_cron import CronJobBase, Schedule
 import models
 
-class MyCronJob(CronJobBase):
+class ExecuteAllTasks(CronJobBase):
     #RUN_EVERY_MINS = 24*60 # every day
     RUN_EVERY_MINS = 1 # every day
 

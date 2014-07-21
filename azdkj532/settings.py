@@ -92,6 +92,6 @@ STATICFILES_DIRS = (
 #cron classes
 
 CRON_CLASSES = [
-    "dmhy.cron.MyCronJob",
+    "dmhy.cron.ExecuteAllTasks",
     # ...
 ]
