@@ -4,39 +4,11 @@ import urllib3
 from bs4 import BeautifulSoup
 import re
 
+import dmhyBot
+
 #return an array of dictionary which contains two attributes, title & url.
 #The attribute which names url is a relativity route. 
-def Search( keywords ):
-    page = urllib3.PoolManager()
-    keywords = u"http://share.dmhy.org/topics/list?keyword={keyword}".format( keyword=keywords.replace( ' ', '+') )
-    res = page.request( 'GET', keywords.encode('utf-8') )
-    if res.status != 200 :
-        return None
 
-    parser = BeautifulSoup( res.data )
-    table = parser.find( id='topic_list').tbody.find_all('tr')
-    download_list = []
-    
-    for topic in table:
-        date = topic.find(style="display: none;").get_text().encode("utf-8")
-        source = topic.find( target="_blank" )
-        while source.find('span') != None :
-            source.span.unwrap()
-        title = re.findall( r"\S+.*", source.get_text().encode('utf-8') )[0].decode("utf-8")
-        download_list.append({ 'title':title, 'url':source['href'], 'date':date })
-    return download_list
-
-def GetMagnetLink( url ):
-    page = urllib3.PoolManager()
-    res = page.request( 'GET', url.encode('utf-8') )
-    if res.status != 200:
-        return None
-    magnet = re.findall( r"magnet:[^\"\s<>]*", res.data )
-    if len(magnet) != 0:
-        return magnet[0]
-    else:
-        return None
-        
 class TransmissionAccount(models.Model):
     username = models.CharField( max_length=25)
     password = models.CharField( max_length=25)
@@ -59,7 +31,7 @@ class Source( models.Model ):
         return Source.objects.filter( uri=self.uri ).count( ) != 0
         
     def getMagnet( self ):
-        m = GetMagnetLink( u'http://share.dmhy.org' + self.uri )
+        m = dmhyBot.GetMagnetLink( u'http://share.dmhy.org' + self.uri )
         if( m != None ):
             self.magnet = m
         return m
@@ -103,14 +75,14 @@ class Task( models.Model):
 
     def executeTask( self ):
         print "Start to process task \"{alias}\"".format( alias = self.alias.encode("utf-8") )
-        topic_list = Search( self.keywords )
+        topic_list = dmhyBot.Search( self.keywords )
         print "We had found {num} topic(s)".format( num = str(len(topic_list)) )
         isupdate = False
         update_first_topic = ( self.first_topic == "" )
         for topic in topic_list:
             target = Source( tid=self.tid, uri=topic['url'], title=topic['title'] )
             status = target.add()
-            print status
+            #print status
             if status:
                 isupdate = True
             if topic['url'] == self.first_topic: break
