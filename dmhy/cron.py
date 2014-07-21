@@ -1,10 +1,16 @@
 from django_cron import CronJobBase, Schedule
-class MyCronJob(CronJobBase):
-    RUN_EVERY_MINS = 5 # every 2 hours
+import models
+
+class ExecuteAllTasks(CronJobBase):
+    #RUN_EVERY_MINS = 24*60 # every day
+    RUN_EVERY_MINS = 1 # every day
 
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'my_app.my_cron_job'    # a unique code
+    code = 'dmhy.executeTask'    # a unique code
 
     def do(self):
-        print "run task"
+        task_list = models.Task.objects.all()
+        for task in task_list:
+            task.executeTask()
+
 

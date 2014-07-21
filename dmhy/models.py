@@ -3,6 +3,7 @@ import sys
 import urllib3
 from bs4 import BeautifulSoup
 import re
+import pytz
 
 import dmhyBot
 
@@ -83,11 +84,11 @@ class Task( models.Model):
             target = Source( tid=self.tid, uri=topic['url'], title=topic['title'] )
             status = target.add()
             #print status
-            if status:
+            if status == 0 :
                 isupdate = True
             if topic['url'] == self.first_topic: break
             if update_first_topic: self.first_topic = topic['url']
         self.save()
         if isupdate :
-            self.last_update = self.last_update.now()
+            self.last_update = self.last_update.utcnow().replace(tzinfo=pytz.utc)
             self.save()
