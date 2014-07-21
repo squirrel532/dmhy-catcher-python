@@ -86,7 +86,7 @@ class Source( models.Model ):
                 self.save()
                 return 2
             else:
-                directory = "/home/pydio/fileserver/BT/{alias}".format( alias = alias )
+                directory = "/home/pydio/fileserver/BT/{alias}".format( alias = alias.encode("utf-8") )
                 res = t_rpc.add_torrent( self.magnet, download_dir = directory.encode("utf-8")  )
                 self.save()
                 return 0
@@ -109,7 +109,9 @@ class Task( models.Model):
         update_first_topic = ( self.first_topic == "" )
         for topic in topic_list:
             target = Source( tid=self.tid, uri=topic['url'], title=topic['title'] )
-            if target.add() == 0:
+            status = target.add()
+            print status
+            if status:
                 isupdate = True
             if topic['url'] == self.first_topic: break
             if update_first_topic: self.first_topic = topic['url']
