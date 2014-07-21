@@ -3,8 +3,6 @@ from django.http import HttpResponse
 from dmhy.models import *
 from datetime import timedelta
 
-from pytz import timezone
-
 # Create your views here.
 def index(request):
     task_list = Task.objects.all( )    
