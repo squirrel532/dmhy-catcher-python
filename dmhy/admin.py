@@ -42,7 +42,7 @@ class SourceAdmin( admin.ModelAdmin ):
     restart.short_description = "Reset the selected source"
     def readd( model_admin, request, queryset):
         queryset.add()
-    restart.short_description = "Readd the selected source"
+    readd.short_description = "Readd the selected source"
     
     
     list_display = ( 'id', 'tid', 'title', 'date', 'status' )
