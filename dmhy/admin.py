@@ -31,9 +31,8 @@ class TaskAdmin( admin.ModelAdmin ):
 
     def get_actions( self, request):
         actions = super(TaskAdmin, self).get_actions(request)
-        if request.user.username[0].upper() != 'J':
-            if 'delete_selected' in actions:
-                del actions['delete_selected']
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
         return actions
 
 class SourceAdmin( admin.ModelAdmin ):
@@ -41,7 +40,8 @@ class SourceAdmin( admin.ModelAdmin ):
         queryset.update( status = 1 )
     restart.short_description = "Reset the selected source"
     def readd( model_admin, request, queryset):
-        queryset.add()
+        for source in queryset.all():
+            source.add()
     readd.short_description = "Readd the selected source"
     
     
