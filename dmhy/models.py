@@ -64,7 +64,8 @@ class Source( models.Model ):
             return 2
         else:
             directory = "/home/pydio/fileserver/BT/{alias}".format( alias = alias.encode("utf-8") )
-            res = t_rpc.add_torrent( self.magnet, download_dir = directory.encode("utf-8")  )
+            res = t_rpc.add_torrent( self.magnet, download_dir = directory )
+            self.status = 0
             self.save()
             return 0
             
