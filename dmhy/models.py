@@ -40,7 +40,7 @@ class Source( models.Model ):
     def add( self):
         if self.isExist() :
             if self.status == 1:
-                 print "Readd: {title}".format( title = self.title.encode("utf-8") )
+                print "Readd: {title}".format( title = self.title.encode("utf-8") )
             else:
                 print "Ign: {title}".format( title = self.title.encode("utf-8") )
                 return 1

@@ -39,12 +39,15 @@ class TaskAdmin( admin.ModelAdmin ):
 class SourceAdmin( admin.ModelAdmin ):
     def restart( model_admin, request, queryset):
         queryset.update( status = 1 )
-       
-    restart.short_description = "Readd the selected task"
+    restart.short_description = "Reset the selected source"
+    def readd( model_admin, request, queryset):
+        queryset.add()
+    restart.short_description = "Readd the selected source"
+    
     
     list_display = ( 'id', 'tid', 'title', 'date', 'status' )
     list_filter  = ( 'tid', 'date')
-    actions=[ restart ]
+    actions=[ restart, readd ]
     
 admin.site.register( Task, TaskAdmin )
 admin.site.register( Source, SourceAdmin )
