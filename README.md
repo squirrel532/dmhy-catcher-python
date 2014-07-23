@@ -14,3 +14,5 @@ This is a python bot which can grab the magnet link from dmhy(http://share.dmhy.
   
   ./manage.py runserver [port]
   (use 0.0.0.0:port can let someone access your site from the interne)
+
+<h4>Before using this program, remember to set DEBUG = False @setting.py</h4>
