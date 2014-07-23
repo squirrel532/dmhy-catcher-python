@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dmhy',
+    'django_cron',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,3 +89,9 @@ STATICFILES_DIRS = (
     os.path.join( BASE_DIR, 'templates/assets/'),
 )
 
+#cron classes
+
+CRON_CLASSES = [
+    "dmhy.cron.ExecuteAllTasks",
+    # ...
+]

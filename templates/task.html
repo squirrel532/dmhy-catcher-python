@@ -48,7 +48,7 @@
             {{task.alias}} ({{task.count}}) {% if task.update %}<span class="label label-default">New</span> {% endif %}
             <ul id="tid{{task.tid}}" class="collapse">
                 {% for source in task.source_list %}
-                <li class="source-list">{% if source.update %}<span class="label label-default">New</span>{% endif %}{{source.title}}</li>
+                <li class="source-list">{{source.title}}{% if source.update %}<span class="label label-default">New</span>{% endif %}</li>
                 {% endfor%}
             </ul>
         </li>
