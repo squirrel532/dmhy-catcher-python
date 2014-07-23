@@ -38,15 +38,16 @@ class Source( models.Model ):
         return m
         
     def add( self):
+        message = "{state}: "+self.title.encode("utf-8")
         if self.isExist() :
             if self.status == 1:
-                print "Readd: {title}".format( title = self.title.encode("utf-8") )
+                print message.format(state = "Readd" )
             else:
-                print "Ign: {title}".format( title = self.title.encode("utf-8") )
+                print message.format(state = "Ign" )
                 return 1
         else:
             self.getMagnet()
-            print "Get: {title}".format( title = self.title.encode("utf-8") )
+            print message.format( state = "Get" )
         
         alias = Task.objects.get(tid=self.tid).alias
         try:
