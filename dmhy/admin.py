@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dmhy.models import Task, Source, TransmissionAccount
+from dmhy.models import Task, Source, TransmissionAccount, CheckQueuingSource
 
 # Register your models here.
 
@@ -14,6 +14,7 @@ class TaskAdmin( admin.ModelAdmin ):
     SetTaskOutofUse.short_description = "Set the task out of use"
 
     def ExecuteTask( model_admin, request, queryset):
+        CheckQueuingSource()
         task_list = queryset.all()
         for task in task_list:
             task.executeTask()

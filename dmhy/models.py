@@ -38,31 +38,39 @@ class Source( models.Model ):
         return m
         
     def add( self):
-        if( self.isExist() ):
-            print "Ign: {title}".format( title = self.title.encode("utf-8") )
-            return 1
+        if self.isExist() :
+            if self.status == 1:
+                 print "Readd: {title}".format( title = self.title.encode("utf-8") )
+            else:
+                print "Ign: {title}".format( title = self.title.encode("utf-8") )
+                return 1
         else:
             self.getMagnet()
             print "Get: {title}".format( title = self.title.encode("utf-8") )
+        
+        alias = Task.objects.get(tid=self.tid).alias
+        try:
+            t_account = TransmissionAccount.objects.get( id = 1 )            
+        except:
+            self.status = 1
+            self.save()
+            return 3
+        try:
+            t_rpc = transmissionrpc.Client( address=t_account.host, port=t_account.port, user=t_account.username, password=t_account.password )
+        except transmissionrpc.error.TransmissionError:
+            self.status = 1
+            self.save()
+            return 2
+        else:
+            directory = "/home/pydio/fileserver/BT/{alias}".format( alias = alias.encode("utf-8") )
+            res = t_rpc.add_torrent( self.magnet, download_dir = directory.encode("utf-8")  )
+            self.save()
+            return 0
             
-            alias = Task.objects.get(tid=self.tid).alias
-            try:
-                t_account = TransmissionAccount.objects.get( id = 1 )            
-            except:
-                self.status = 1
-                self.save()
-                return 3
-            try:
-                t_rpc = transmissionrpc.Client( address=t_account.host, port=t_account.port, user=t_account.username, password=t_account.password )
-            except transmissionrpc.error.TransmissionError:
-                self.status = 1
-                self.save()
-                return 2
-            else:
-                directory = "/home/pydio/fileserver/BT/{alias}".format( alias = alias.encode("utf-8") )
-                res = t_rpc.add_torrent( self.magnet, download_dir = directory.encode("utf-8")  )
-                self.save()
-                return 0
+def CheckQueuingSource():
+    list = Source.objects.filter( status = 1)
+    for s in list:
+        s.add()
             
 #Task
 import datetime
