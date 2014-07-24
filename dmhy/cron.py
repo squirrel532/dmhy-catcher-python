@@ -1,4 +1,4 @@
-from django_cron import CronJobBase, Schedule
+from django_cron import CronJobBase, Schedule, CheckQueuingSource
 import models
 
 class ExecuteAllTasks(CronJobBase):
@@ -9,6 +9,7 @@ class ExecuteAllTasks(CronJobBase):
     code = 'dmhy.executeTask'    # a unique code
 
     def do(self):
+        CheckQueuingSource()
         task_list = models.Task.objects.all()
         for task in task_list:
             task.executeTask()
