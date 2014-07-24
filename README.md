@@ -6,7 +6,10 @@ This is a python bot which can grab the magnet link from dmhy(http://share.dmhy.
 
   Install the relative python package
   
-  run 
+  apt-get install python-django python-bs4
+  easy_install --upgrade pytz
+  
+<h1>run</h1>
   
   cd dmhy-catcher-python
   
