@@ -5,26 +5,20 @@ from datetime import timedelta
 
 # Create your views here.
 def index(request):
-    task_list = Task.objects.all( )    
-    my_task_list = []
-    for task in task_list:
+    task_list = []
+    for task in Task.objects.all():
         source_list = Source.objects.filter( tid=task.tid)
-        my_source_list = []
-        my_task={}
+        
+        delta = task.last_update.utcnow() - task.last_update.replace(tzinfo=None)
+        task_info={   "source_list":[], 
+                    "alias":task.alias, 
+                    "tid":task.tid, 
+                    "count":source_list.count(), 
+                    "update":(delta.days == 0) }
+        
         for source in source_list:
             source_update = source.date.utcnow() - source.date.replace(tzinfo=None) 
-            my_source = {}
-            my_source['update'] = ( source_update.days == 0 )
-            my_source['title']  = source.title
-            my_source_list.append( my_source )
-        my_task['source_list'] = my_source_list
+            task_info['source_list'].append({ "update":(source_update.days==0), "title":source.title })
 
-        delta = task.last_update.utcnow() - task.last_update.replace(tzinfo=None)
-        my_task['update'] = ( delta.days == 0 )
-        
-        my_task['alias'] = task.alias
-        my_task['tid'] = task.tid
-        my_task['count'] = source_list.count()
-
-        my_task_list.append( my_task )
-    return render_to_response('task.html', { 'task_list': my_task_list })
+        task_list.append( task_info )
+    return render_to_response('task.html', { 'task_list': task_list })
