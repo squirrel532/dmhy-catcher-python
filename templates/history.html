@@ -10,7 +10,7 @@
     <title>Starter Template for Bootstrap</title>
     
     <!-- Bootstrap core CSS -->
-    {% load staticfiles%}
+    {% load static from staticfiles%}
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/custom.css" %}" rel="stylesheet">
     <link href="{% static "css/bootstrap-theme.css" %}" rel="stylesheet">
@@ -41,20 +41,16 @@
 
     <div class="container">
 
-      <h1>Task List</h1>
+      <h1>History</h1>
       <p>
-    <ul>
-        {% for task in task_list %}
-        <li data-toggle="collapse" data-target="#tid{{task.tid}}" class="task-list"><span class="glyphicon glyphicon-chevron-down"></span> 
-            {{task.alias}} ({{task.count}}) {% if task.update %}<span class="label label-default">New</span> {% endif %}
-            <ul id="tid{{task.tid}}" class="collapse">
-                {% for source in task.source_list %}
-                <li class="source-list">{{source.title}}{% if source.update %}<span class="label label-default">New</span>{% endif %}</li>
-                {% endfor%}
-            </ul>
-        </li>
-        {% endfor %}
-    </ul>
+		<table>
+		{% for record in records %}
+		<tr>
+		<td>{{record.title}}</td>
+ 		<td>{{record.date}}</td>
+		</tr>
+		{% endfor %}
+		</table>
     </div><!-- /.container -->
     
     <!-- Bootstrap core JavaScript

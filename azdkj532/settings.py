@@ -20,13 +20,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '!!nz4_7!4k#n-gp#-88m(6&v0@!0zcgkwp)f*tdzkxerm+0xu9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#DEBUG = False
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+SITE_ID = 1
+
+TEMPLATE_DEBUG = False
 
 TEMPLATE_DIRS = ( os.path.join(BASE_DIR, "templates"),)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,7 +89,7 @@ USE_TZ = True
 STATIC_URL = '/dmhy/static/'
 
 STATICFILES_DIRS = (
-    os.path.join( BASE_DIR, 'templates/assets/'),
+    os.path.join( BASE_DIR, 'templates/assets'),
 )
 
 #cron classes
