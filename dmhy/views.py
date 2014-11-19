@@ -40,10 +40,7 @@ def tasklist( request ):
             "status": task.status,
             "last_update": str(task.last_update) 
             })
-    res = HttpResponse( json.dumps(json_data), content_type="application/json" )
-    res.flush()
-    res.close()
-    return res
+    return HttpResponse( json.dumps(json_data), content_type="application/json" )
 
 def resourcelist( request, tid=0 ):
     json_data = {}
