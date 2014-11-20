@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import re
 import pytz
 
-import dmhyBot
+from . import dmhyBot
 
 #return an array of dictionary which contains two attributes, title & url.
 #The attribute which names url is a relativity route. 
