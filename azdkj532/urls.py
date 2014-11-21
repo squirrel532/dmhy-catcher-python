@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^api/tasklist/', 'dmhy.views.tasklist'),
     url(r'^api/resourcelist/(?P<tid>[0-9]*)', 'dmhy.views.resourcelist'),
     url(r'^api/history/', 'dmhy.views.records'),
+    url(r'^api/search/', 'dmhy.views.search'),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
