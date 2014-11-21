@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.http import HsonResponse
+from django.http import JsonResponse
 from dmhy.models import *
 import json
 
