@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import re
 import pytz
 
-import dmhyBot
+from . import dmhyBot
 
 #return an array of dictionary which contains two attributes, title & url.
 #The attribute which names url is a relativity route. 
@@ -41,13 +41,13 @@ class Source( models.Model ):
         message = "{state}: "+self.title.encode("utf-8")
         if self.isExist() :
             if self.status == 1:
-                print message.format(state = "Readd" )
+                print(message.format(state = "Readd" ))
             else:
-                print message.format(state = "Ign" )
+                print(message.format(state = "Ign" ))
                 return 1
         else:
             self.getMagnet()
-            print message.format( state = "Get" )
+            print(message.format( state = "Get" ))
         
         alias = Task.objects.get(tid=self.tid).alias
         try:
@@ -85,15 +85,15 @@ class Task( models.Model):
     last_update = models.DateTimeField( auto_now_add = True)
 
     def executeTask( self ):
-        print "Start to process task \"{alias}\"".format( alias = self.alias.encode("utf-8") )
+        print("Start to process task \"{alias}\"".format( alias = self.alias.encode("utf-8") ))
         topic_list = dmhyBot.Search( self.keywords )
-        print "We had found {num} topic(s)".format( num = str(len(topic_list)) )
+        print("We had found {num} topic(s)".format( num = str(len(topic_list)) ))
         isupdate = False
         update_first_topic = ( self.first_topic == "" )
         for topic in topic_list:
             target = Source( tid=self.tid, uri=topic['url'], title=topic['title'] )
             status = target.add()
-            #print status
+            #print(status)
             if status == 0 :
                 isupdate = True
             if topic['url'] == self.first_topic: break
