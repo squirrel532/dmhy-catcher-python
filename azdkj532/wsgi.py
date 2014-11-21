@@ -10,5 +10,8 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "azdkj532.settings")
 
+import sys
+sys.path.append('/home/kuroneko/dmhy-catcher-python')
+
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
