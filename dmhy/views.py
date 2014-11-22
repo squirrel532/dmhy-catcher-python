@@ -45,10 +45,10 @@ def records( request ):
 
 from dmhy.dmhyBot import Search
 def search( request ):
-    if request.method == 'POST':
-        keyword = request.POST['keyword']
+    if request.method == 'GET':
+        keyword = request.GET['keyword']
         topic_list = Search( keyword )
         return HttpResponse( json.dumps(topic_list ), content_type="application/json" )
     else:
-        return HttpResponse( json.dumps({"message":"Please use POST method"}), content_type="application/json"  )
+        return HttpResponse( json.dumps({"message":"Please use GET method"}), content_type="application/json"  )
 
