@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from django.http import JsonResponse
 from dmhy.models import *
 import json
 
@@ -49,7 +48,7 @@ def search( request ):
     if request.method == 'POST':
         keyword = request.POST['keyword']
         topic_list = Search( keyword )
-        return JsonResponse( topic_list )
+        return HttpResponse( json.dumps(topic_list ), content_type="application/json" )
     else:
-        return JsonResponse( {"message":"Please use POST method"} )
+        return HttpResponse( json.dumps({"message":"Please use POST method"}), content_type="application/json"  )
 
