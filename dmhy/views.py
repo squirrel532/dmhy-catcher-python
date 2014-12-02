@@ -46,7 +46,7 @@ def records( request ):
 from dmhy.dmhyBot import Search
 def search( request ):
     if request.method == 'GET':
-        keyword = request.GET.get('GET', '')
+        keyword = request.GET.get('keyword', '')
         topic_list = Search( keyword )
         return HttpResponse( json.dumps(topic_list ), content_type="application/json" )
     else:
