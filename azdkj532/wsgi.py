@@ -11,7 +11,7 @@ import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "azdkj532.settings")
 
 import sys
-sys.path.append('/home/kuroneko/dmhy-catcher-python')
+sys.path.append('/var/www/python/dmhy-catcher/')
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
