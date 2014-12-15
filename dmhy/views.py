@@ -1,6 +1,7 @@
-from django.http import HttpResponse
-from dmhy.models import *
 import json
+
+from django.http import HttpResponse
+from dmhy.models import Task, Source  
 
 def tasklist( request ):
     json_data = {}
