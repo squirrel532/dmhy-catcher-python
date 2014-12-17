@@ -1,24 +1,42 @@
-from django.http import HttpResponse
-from dmhy.models import *
 import json
 
-def tasklist( request ):
-    json_data = {}
-    json_data['tasklist'] = []
-    try:
-        for task in Task.objects.all():
-            json_data['tasklist'].append({
-                "tid": task.tid,
-                "alias": task.alias,
-                "status": task.status,
-                "last_update": str(task.last_update) 
-                })
-    except:
-        json_data['status'] = False
-    else:
-        json_data['status'] = True
+from django.http import HttpResponse
+from dmhy.models import *
 
-    return HttpResponse( json.dumps(json_data), content_type="application/json" )
+def tasklist( request ):
+    if request.method == 'GET':
+        json_data = {}
+        json_data['tasklist'] = []
+        try:
+            for task in Task.objects.all():
+                json_data['tasklist'].append({
+                    "tid": task.tid,
+                    "alias": task.alias,
+                    "status": task.status,
+                    "last_update": str(task.last_update) 
+                    })
+        except:
+            json_data['status'] = False
+        else:
+            json_data['status'] = True
+
+        return HttpResponse( json.dumps(json_data), content_type="application/json" )
+    elif request.method == 'POST':
+        if request.user.is_authenticated():
+            data = {}
+            alias = keywords = ''
+            try:
+                data = json.loads( request.body )
+                alias = data.get('alias')
+                keywords = data.get('keywords')
+                t = Task( alias=alias, keywords=keywords )
+                t.save()
+            except:
+                return HttpResponse( json.dumps({"status":False}), content_type="application/json" )
+            else:
+                return HttpResponse( json.dumps({"status":True}) , content_type="application/json" )
+
+
 
 def resourcelist( request, tid=0 ):
     json_data = {}
