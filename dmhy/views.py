@@ -1,7 +1,7 @@
 import json
 
 from django.http import HttpResponse
-from dmhy.models import *
+from dmhy.models import Task, Source  
 
 def tasklist( request ):
     if request.method == 'GET':
