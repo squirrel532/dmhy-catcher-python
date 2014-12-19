@@ -61,12 +61,12 @@ def records( request ):
         record_list.append({ 'title':source.title ,'date':str(source.date) })
     return HttpResponse( json.dumps(record_list), content_type="application/json" ) 
 
-from dmhy.dmhyBot import Search
+from dmhy.dmhy import Search
 def search( request ):
     if request.method == 'GET':
         keyword = request.GET.get('keyword', '')
         topic_list = Search( keyword )
-        return HttpResponse( json.dumps(topic_list ), content_type="application/json" )
+        return HttpResponse( json.dumps( topic_list ), content_type="application/json" )
     else:
         return HttpResponse( json.dumps({"message":"Please use GET method"}), content_type="application/json"  )
 

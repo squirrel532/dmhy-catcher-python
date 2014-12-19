@@ -1,11 +1,11 @@
 from django.db import models
 import sys
-import urllib3
 from bs4 import BeautifulSoup
 import re
 import pytz
 
-from . import dmhyBot
+
+from dmhy import dmhy as dmhyBot
 
 #return an array of dictionary which contains two attributes, title & url.
 #The attribute which names url is a relativity route. 
@@ -27,7 +27,7 @@ class Source( models.Model ):
     date = models.DateTimeField( auto_now = True, auto_now_add = True)
     status = models.IntegerField( default = 0 )# 0 means success
     def __str__(self):
-        return self.title.encode('utf-8')
+        return self.title
     def isExist( self ):
         return Source.objects.filter( uri=self.uri ).count( ) != 0
         
@@ -38,7 +38,7 @@ class Source( models.Model ):
         return m
         
     def add( self):
-        message = "{state}: "+self.title.encode("utf-8")
+        message = "{state}: "+self.title
         if self.isExist() :
             if self.status == 1:
                 print(message.format(state = "Readd" ))
@@ -63,7 +63,7 @@ class Source( models.Model ):
             self.save()
             return 2
         else:
-            directory = "/home/pydio/fileserver/BT/{alias}".format( alias = alias.encode("utf-8") )
+            directory = "/home/pydio/fileserver/BT/{alias}".format( alias = alias) 
             res = t_rpc.add_torrent( self.magnet, download_dir = directory )
             self.status = 0
             self.save()
@@ -85,7 +85,7 @@ class Task( models.Model):
     last_update = models.DateTimeField( auto_now_add = True)
 
     def executeTask( self ):
-        print("Start to process task \"{alias}\"".format( alias = self.alias.encode("utf-8") ))
+        print("Start to process task \"{alias}\"".format( alias = self.alias ))
         topic_list = dmhyBot.Search( self.keywords )
         print("We had found {num} topic(s)".format( num = str(len(topic_list)) ))
         isupdate = False
