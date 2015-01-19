@@ -1,6 +1,5 @@
 from django_cron import CronJobBase, Schedule
-import models
-from models import CheckQueuingSource
+from dmhy.models import CheckQueuingSource, Task
 
 class ExecuteAllTasks(CronJobBase):
     RUN_EVERY_MINS = 12*60 # every half day
@@ -12,7 +11,7 @@ class ExecuteAllTasks(CronJobBase):
 
     def do(self):
         CheckQueuingSource()
-        task_list = models.Task.objects.filter( status=True )
+        task_list = Task.objects.filter( status=True )
         for task in task_list:
             task.executeTask()
 

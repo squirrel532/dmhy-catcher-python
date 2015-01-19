@@ -1,7 +1,7 @@
 import json
 
 from django.http import HttpResponse
-from dmhy.models import Task, Source  
+from dmhy.models import Task, Source, CheckQueuingSource
 
 def tasklist( request ):
     if request.method == 'GET':
@@ -26,17 +26,21 @@ def tasklist( request ):
             data = {}
             alias = keywords = ''
             try:
-                data = json.loads( request.body )
+                data = json.loads( request.body.decode('utf-8') )
                 alias = data.get('alias')
                 keywords = data.get('keywords')
-                t = Task( alias=alias, keywords=keywords )
-                t.save()
+                Task( alias=alias, keywords=keywords ).save()
             except:
                 return HttpResponse( json.dumps({"status":False}), content_type="application/json" )
             else:
                 return HttpResponse( json.dumps({"status":True}) , content_type="application/json" )
 
-
+def exec(request):
+    if request.user.is_authenticated():
+        CheckQueuingSource()
+        task_list = models.Task.objects.filter( status=True )
+        for task in task_list:
+            task.executeTask()
 
 def resourcelist( request, tid=0 ):
     json_data = {}

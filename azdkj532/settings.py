@@ -20,8 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '!!nz4_7!4k#n-gp#-88m(6&v0@!0zcgkwp)f*tdzkxerm+0xu9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
-DEBUG = True
+DEBUG = False
+#DEBUG = True
 
 SITE_ID = 1
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'dmhy',
     'django_cron',
+    'iWorldNote',
 )
 
 MIDDLEWARE_CLASSES = (
