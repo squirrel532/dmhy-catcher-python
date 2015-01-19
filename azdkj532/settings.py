@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'dmhy',
     'django_cron',
-    'iWorldNote',
 )
 
 MIDDLEWARE_CLASSES = (
