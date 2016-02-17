@@ -1,8 +1,11 @@
+import string
+import random
 import json
+import hashlib
 import threading
 from bottle import Bottle, run, request
 
-from db import Task, Resource
+from db import Task, Resource, Account
 from worker import run_task
 from dmhy import dmhy
 
@@ -33,5 +36,21 @@ def crawler():
     td = threading.Thread(target=run_task)
     td.start()
     return "Start running"
+
+
+@app.post('/login')
+def do_login():
+    try:
+        username = request.json.get('username')
+        password = request.json.get('password')
+        user = Account.select().where(Account.username == username).get()
+        if hashlib.sha256(password).hexdigest() == user.password:
+            user.token = ''.join(random.choice(string.hexdigest) for _ in range(24))
+            user.save()
+            return json.dumps({"status": True, "token": user.token})
+        else:
+            raise Exception
+    except:
+        return json.dumps({"status": False, "message": "authentication failed"})
 
 run(app, host='localhost', port=8080)
