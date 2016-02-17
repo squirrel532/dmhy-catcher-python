@@ -13,7 +13,7 @@ List all resource.
 The server returns an array of objects with name `resource`.
 
 * title
-* date
+* last_update
 
 ### HEAD /run
 
@@ -28,6 +28,7 @@ paging parameter `page`
 
 * parameter `q` for keywords.
 * Sample requests: `GET /search?q=<keywords>`
+* Response like `/resource`
 
 ### POST /auth
 
