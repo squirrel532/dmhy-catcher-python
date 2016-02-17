@@ -25,6 +25,12 @@ class Resource(peewee.Model):
     class Meta:
         database = db
 
+
+class Account(peewee.Model):
+    username = peewee.CharField()
+    password = peewee.CharField()
+    token = peewee.CharField(default="")
+
 if __name__ == '__main__':
     db.connect()
-    db.create_tables([Task, Resource])
+    db.create_tables([Task, Resource, Account])
