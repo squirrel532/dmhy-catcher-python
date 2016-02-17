@@ -1,0 +1,3 @@
+[submodule "python/dmhy-sdk"]
+	path = python/dmhy-sdk
+	url = https://github.com/azdkj532/dmhy-sdk.git
