@@ -19,6 +19,7 @@ class Resource(peewee.Model):
     task = peewee.ForeignKeyField(Task, related_name='resources')
     title = peewee.TextField()
     magnet_link = peewee.TextField(default="")
+    download = peewee.BooleanField(default=False)
     last_update = peewee.DateTimeField(default=datetime.now(), formats='%Y-%m-%d %H:%M:%S')
 
     class Meta:

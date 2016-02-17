@@ -1,7 +1,9 @@
 import json
+import threading
 from bottle import Bottle, run, request
 
 from db import Task, Resource
+from worker import run_task
 from dmhy import dmhy
 
 app = Bottle()
@@ -25,5 +27,11 @@ def search():
     res = [{"title": topic.title, "last_update": topic.date} for topic in dmhy.Search(keyword)]
     return json.dumps({"resource": res}, ensure_ascii=False)
 
+
+@app.route('/run')
+def crawler():
+    td = threading.Thread(target=run_task)
+    td.start()
+    return "Start running"
 
 run(app, host='localhost', port=8080)
