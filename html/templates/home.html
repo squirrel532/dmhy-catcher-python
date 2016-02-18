@@ -1,0 +1,13 @@
+<h1>Taksk List</h1>
+<table class="table">
+   <tr>
+       <th><a href="" ng-click="column='tid'; reverse=!reverse">task id</a></th>
+       <th><a href="" ng-click="column='alias'; reverse=!reverse">name</a></th>
+       <th><a href="" ng-click="column='last_update'; reverse=!reverse">last update time</a></th>
+   </tr>
+   <tr ng-repeat="task in tasks | orderBy:column:reverse">
+       <td>#{{task.tid}}</td>
+       <td>{{task.alias}}</td>
+       <td>{{task.last_update}}</td>
+   </tr>
+</table>
