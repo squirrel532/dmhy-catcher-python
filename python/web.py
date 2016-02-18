@@ -1,7 +1,6 @@
 import string
 import random
 import json
-import hashlib
 import threading
 from bottle import Bottle, run, request
 
@@ -12,10 +11,28 @@ from dmhy import dmhy
 app = Bottle()
 
 
-@app.route('/task')
+@app.get('/task')
 def task_list():
     tasks = [task for task in Task.select().dicts()]
     return json.dumps({"task_list": tasks}, ensure_ascii=False)
+
+
+@app.post('/task')
+def add_task_list():
+    try:
+        token = request.json.get('token')
+        Account.select().where(Account.token == token).get()
+    except:
+        return json.dumps({"status": False, "message": "auth fail"})
+
+    try:
+        alias = request.json.get('alias')
+        keyword = request.json.get('keyword')
+        task = Task.create(alias=alias, keyword=keyword)
+        task.save()
+        return json.dumps({"status": True})
+    except:
+        return json.dumps({"status": False, "message": "error"})
 
 
 @app.route('/resource')
