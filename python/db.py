@@ -1,7 +1,20 @@
 from datetime import datetime
+import configparser
 import peewee
 
-db = peewee.SqliteDatabase('dmhy.db')
+
+try:
+    config = configparser.ConfigParser()
+    config.read("settings.conf")
+    db_path = config['database']['path']
+except:
+    db_path = "dmhy.db"
+    config['database'] = config.get('database', {})  # initialize if not exists
+    config['database']['path'] = db_path
+    with open('settings.conf', 'w') as configfile:
+        config.write(configfile)
+
+db = peewee.SqliteDatabase(db_path)
 
 
 class Task(peewee.Model):
@@ -30,6 +43,14 @@ class Account(peewee.Model):
     username = peewee.CharField()
     password = peewee.CharField()
     token = peewee.CharField(default="")
+
+    class Meta:
+        database = db
+
+    @staticmethod
+    def check_token(t):
+        return Account.select().where(Account.token == t).exists()
+
 
 if __name__ == '__main__':
     db.connect()
