@@ -54,4 +54,18 @@ def do_login():
     except:
         return json.dumps({"status": False, "message": "authentication failed"})
 
+
+@app.post('/logout')
+def do_logout():
+    try:
+        token = request.json.get('token')
+        user = Account.select().where(Account.token == token).get()
+        user.token = None
+        user.save(only=[Account.token])
+        return json.dumps({"status": True})
+
+    except:
+        return json.dumps({"status": False, "message": "some error"})
+
+
 run(app, host='localhost', port=8080)
