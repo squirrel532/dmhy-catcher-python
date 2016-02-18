@@ -41,7 +41,7 @@ class Resource(peewee.Model):
 
 
 class Account(peewee.Model):
-    username = peewee.CharField()
+    username = peewee.CharField(unique=True)
     password = PasswordField()
     token = peewee.CharField(default=None, null=True)
 
