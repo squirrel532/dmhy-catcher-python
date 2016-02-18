@@ -44,9 +44,10 @@ def do_login():
         username = request.json.get('username')
         password = request.json.get('password')
         user = Account.select().where(Account.username == username).get()
-        if hashlib.sha256(password).hexdigest() == user.password:
-            user.token = ''.join(random.choice(string.hexdigest) for _ in range(24))
-            user.save()
+        if user.password.check_password(password):
+            if user.token is None:
+                user.token = ''.join(random.choice(string.hexdigits) for _ in range(24))
+                user.save(only=[Account.token])
             return json.dumps({"status": True, "token": user.token})
         else:
             raise Exception

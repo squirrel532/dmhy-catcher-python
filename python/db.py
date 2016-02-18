@@ -1,6 +1,7 @@
 from datetime import datetime
 import configparser
 import peewee
+from playhouse.fields import PasswordField
 
 
 try:
@@ -41,8 +42,8 @@ class Resource(peewee.Model):
 
 class Account(peewee.Model):
     username = peewee.CharField()
-    password = peewee.CharField()
-    token = peewee.CharField(default="")
+    password = PasswordField()
+    token = peewee.CharField(default=None, null=True)
 
     class Meta:
         database = db
