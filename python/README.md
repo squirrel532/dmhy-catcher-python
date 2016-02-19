@@ -4,3 +4,5 @@
 * bottle-sqlite
 * peewee
 * transmissionrpc
+* bcrypt
+* requests==2.9.1
